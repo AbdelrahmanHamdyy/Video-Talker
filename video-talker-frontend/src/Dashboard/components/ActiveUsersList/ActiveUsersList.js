@@ -1,4 +1,5 @@
 import React from "react";
+import ActiveUsersListItem from "./ActiveUsersListItem";
 import "./ActiveUsersList.css";
 
 const activeUsers = [
@@ -21,7 +22,16 @@ const activeUsers = [
 ];
 
 const ActiveUsersList = () => {
-  return <div>ActiveUsersList</div>;
+  return (
+    <div className="active_users_list_container">
+      {activeUsers.map((activeUser) => (
+        <ActiveUsersListItem
+          key={activeUser.socketId}
+          activeUser={activeUser}
+        />
+      ))}
+    </div>
+  );
 };
 
 export default ActiveUsersList;
