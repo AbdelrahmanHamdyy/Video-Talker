@@ -6,6 +6,7 @@ import logo from "../resources/logo.png";
 import UsernameInput from "./components/UsernameInput";
 import SubmitButton from "./components/SubmitButton";
 import { setUsername } from "../store/actions/dashboardActions";
+import { registerNewUser } from "../utils/wsConnection/wsConnection";
 
 const Login = ({ saveUsername }) => {
   const [username, setUsername] = useState("");
@@ -13,8 +14,9 @@ const Login = ({ saveUsername }) => {
   const history = useHistory();
 
   const handleSubmitButtonPressed = () => {
-    history.push("/dashboard");
+    registerNewUser(username);
     saveUsername(username);
+    history.push("/dashboard");
   };
 
   return (
