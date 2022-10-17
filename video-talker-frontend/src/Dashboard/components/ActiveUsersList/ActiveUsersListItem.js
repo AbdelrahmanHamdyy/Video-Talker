@@ -16,9 +16,7 @@ const ActiveUsersListItem = (props) => {
           src={userAvatar}
           alt="Active User"
         />
-        <span className="active_user_list_text">
-          {ActiveUsersListItem.username}
-        </span>
+        <span className="active_user_list_text">{activeUser.username}</span>
       </div>
     </div>
   );
