@@ -18,6 +18,10 @@ const io = socket(server, {
 });
 
 let peers = []; // Store Active Users
+const broadcastEventTypes = {
+  ACTIVE_USERS: "ACTIVE_USERS",
+  GROUP_CALL_ROOMS: "GROUP_CALL_ROOMS",
+};
 
 io.on("connection", (socket) => {
   socket.emit("connection", null);
@@ -31,5 +35,10 @@ io.on("connection", (socket) => {
     });
     console.log(`New User Registered`);
     console.log(peers);
+
+    io.sockets.emit("broadcast", {
+      event: broadcastEventTypes.ACTIVE_USERS,
+      activeUsers: peers,
+    });
   });
 });
