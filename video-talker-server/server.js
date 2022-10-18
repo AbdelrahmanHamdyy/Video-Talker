@@ -31,7 +31,7 @@ io.on("connection", (socket) => {
   socket.on("register-new-user", (data) => {
     peers.push({
       username: data.username,
-      socket: data.socketId,
+      socketId: data.socketId,
     });
     console.log(`New User Registered`);
     console.log(peers);
