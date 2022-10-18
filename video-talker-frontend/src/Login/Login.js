@@ -42,4 +42,4 @@ const mapActionsToProps = (dispatch) => {
 };
 
 export default connect(null, mapActionsToProps)(Login);
-// StoreToProps -> null
+// MapStateToProps -> null
