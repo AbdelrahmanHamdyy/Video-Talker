@@ -1,4 +1,8 @@
-import { setLocalStream } from "../../store/actions/callActions";
+import {
+  setLocalStream,
+  setCallState,
+  callStates,
+} from "../../store/actions/callActions";
 import store from "../../store/store";
 
 const defaultConstraints = {
@@ -11,6 +15,7 @@ export const getLocalStream = () => {
     .getUserMedia(defaultConstraints)
     .then((stream) => {
       store.dispatch(setLocalStream(stream));
+      store.dispatch(setCallState(callStates.CALL_AVAILABLE));
     })
     .catch((err) => {
       // Permission Denied
