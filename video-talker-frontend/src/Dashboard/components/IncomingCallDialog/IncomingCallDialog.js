@@ -20,13 +20,13 @@ const IncomingCallDialog = ({ callerUsername }) => {
       <div className="direct_call_dialog_button_container">
         <button
           className="direct_call_dialog_accept_button"
-          onclick={handleAcceptButtonPressed}
+          onClick={handleAcceptButtonPressed}
         >
           Accept
         </button>
         <button
           className="direct_call_dialog_accept_button"
-          onclick={handleRejectButtonPressed}
+          onClick={handleRejectButtonPressed}
         >
           Reject
         </button>
