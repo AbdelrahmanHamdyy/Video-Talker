@@ -26,6 +26,10 @@ export const connectWithWebSocket = () => {
   socket.on("pre-offer", (data) => {
     webRTCHandler.handlePreOffer(data);
   });
+
+  socket.on("pre-offer-answer", (data) => {
+    webRTCHandler.handlePreOfferAnswer(data);
+  });
 };
 
 export const registerNewUser = (username) => {
