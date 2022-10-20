@@ -22,12 +22,11 @@ export const connectWithWebSocket = () => {
   socket.on("broadcast", (data) => {
     handleBroadcastEvents(data);
   });
+  // Listeners related with direct call
+  socket.on("pre-offer", (data) => {
+    webRTCHandler.handlePreOffer(data);
+  });
 };
-
-// Listeners related with direct call
-socket.on("pre-offer", (data) => {
-  webRTCHandler.handlePreOffer(data);
-});
 
 export const registerNewUser = (username) => {
   socket.emit("register-new-user", {
