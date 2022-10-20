@@ -42,7 +42,7 @@ export const callToOtherUser = (calleeDetails) => {
 };
 
 export const handlePreOffer = (data) => {
-  connectedUserSocketId = data.caller.socketId;
+  connectedUserSocketId = data.callerSocketId;
   store.dispatch(setCallerUsername(data.callerUsername));
   store.dispatch(setCallState(callStates.CALL_REQUESTED));
 };
