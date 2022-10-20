@@ -35,11 +35,11 @@ const Login = ({ saveUsername }) => {
   );
 };
 
-const mapActionsToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch) => {
   return {
     saveUsername: (username) => dispatch(setUsername(username)),
   };
 };
 
-export default connect(null, mapActionsToProps)(Login);
+export default connect(null, mapDispatchToProps)(Login);
 // MapStateToProps -> null
