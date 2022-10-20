@@ -4,6 +4,7 @@ import {
   callStates,
   setCallingDialogVisible,
   setCallerUsername,
+  setCallRejected,
 } from "../../store/actions/callActions";
 import store from "../../store/store";
 import * as ws from "../wsConnection/wsConnection";
@@ -85,6 +86,12 @@ export const handlePreOfferAnswer = (data) => {
     } else {
       rejectionReason = "Call rejected by the callee";
     }
+    store.dispatch(
+      setCallRejected({
+        rejected: true,
+        reason: rejectionReason,
+      })
+    );
   }
 };
 
