@@ -8,8 +8,8 @@ const CallRejectedDialog = ({ reason, hideCallRejectedDialog }) => {
         rejected: false,
         reason: "",
       });
-    }, [4000]);
-  }, []);
+    }, 4000);
+  }, [hideCallRejectedDialog]);
 
   return (
     <div className="call_rejected_dialog background_secondary_color">
