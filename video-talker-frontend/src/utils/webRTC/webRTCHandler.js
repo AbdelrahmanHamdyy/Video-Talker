@@ -20,12 +20,24 @@ const defaultConstraints = {
   audio: true,
 };
 
+const configuration = {
+  iceServers: [
+    {
+      urls: "stun:stun.l.google.com:13902",
+    },
+  ],
+};
+
+let connectedUserSocketId;
+let peerConnection;
+
 export const getLocalStream = () => {
   navigator.mediaDevices
     .getUserMedia(defaultConstraints)
     .then((stream) => {
       store.dispatch(setLocalStream(stream));
       store.dispatch(setCallState(callStates.CALL_AVAILABLE));
+      createPeerConnection();
     })
     .catch((err) => {
       // Permission Denied
@@ -34,7 +46,23 @@ export const getLocalStream = () => {
     });
 };
 
-let connectedUserSocketId;
+const createPeerConnection = () => {
+  peerConnection = new RTCPeerConnection(configuration);
+
+  const localStream = store.getState().call.localStream;
+
+  for (const track of localStream.getTrack()) {
+    peerConnection.addTrack(track, localStream);
+  }
+
+  peerConnection.ontrack = ({ streams: [stream] }) => {
+    // Dispatch remote stream in the store
+  };
+
+  peerConnection.onicecandidate = (event) => {
+    // Send our ice candidates to the connected user
+  };
+};
 
 export const callToOtherUser = (calleeDetails) => {
   connectedUserSocketId = calleeDetails.socketId;
@@ -79,7 +107,7 @@ export const rejectIncomingCallRequest = () => {
 export const handlePreOfferAnswer = (data) => {
   store.dispatch(setCallingDialogVisible(false));
   if (data.answer === preOfferAnswers.CALL_ACCEPTED) {
-    // Send webRTC offer
+    sendOffer();
   } else {
     let rejectionReason;
     if (data.answer === preOfferAnswers.CALL_NOT_AVAILABLE) {
@@ -95,6 +123,25 @@ export const handlePreOfferAnswer = (data) => {
     );
     resetCallData();
   }
+};
+
+const sendOffer = async () => {
+  const offer = await peerConnection.createOffer();
+  await peerConnection.setLocalDescription(offer);
+  ws.sendWebRTCOffer({
+    calleeSocketId: connectedUserSocketId,
+    offer: offer,
+  });
+};
+
+export const handleOffer = async (data) => {
+  await peerConnection.setRemoteDescription(data.offer);
+  const answer = await peerConnection.createAnswer();
+  await peerConnection.setLocalDescription(answer);
+  ws.sendWebRTCAnswer({
+    callerSocketId: connectedUserSocketId,
+    answer: answer,
+  });
 };
 
 export const checkIfCallIsPossible = () => {
