@@ -75,6 +75,19 @@ export const rejectIncomingCallRequest = () => {
   resetCallData();
 };
 
+export const handlePreOfferAnswer = (data) => {
+  if (data.answer === preOfferAnswers.CALL_ACCEPTED) {
+    // Send webRTC offer
+  } else {
+    let rejectionReason;
+    if (data.answer === preOfferAnswers.CALL_NOT_AVAILABLE) {
+      rejectionReason = "Callee is not able to pick up the call right now!";
+    } else {
+      rejectionReason = "Call rejected by the callee";
+    }
+  }
+};
+
 export const checkIfCallIsPossible = () => {
   if (
     store.getState().call.localStream === null ||
