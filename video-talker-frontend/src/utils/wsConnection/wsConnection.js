@@ -54,11 +54,11 @@ export const sendPreOfferAnswer = (data) => {
 
 export const sendWebRTCOffer = (data) => {
   socket.emit("webRTC-offer", data);
-};\
+};
 
 export const sendWebRTCAnswer = (data) => {
   socket.emit("webRTC-answer", data);
-}
+};
 
 const handleBroadcastEvents = (data) => {
   switch (data.event) {
