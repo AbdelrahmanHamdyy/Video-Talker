@@ -93,6 +93,7 @@ export const handlePreOfferAnswer = (data) => {
         reason: rejectionReason,
       })
     );
+    resetCallData();
   }
 };
 
