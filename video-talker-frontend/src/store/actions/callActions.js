@@ -3,6 +3,7 @@ export const CALL_SET_CALL_STATE = "CALL_SET_CALL_STATE";
 export const CALL_SET_CALLING_DIALOG_VISIBLE =
   "CALL_SET_CALLING_DIALOG_VISIBLE";
 export const CALL_SET_CALLER_USERNAME = "CALL_SET_CALLER_USERNAME";
+export const CALL_SET_CALL_REJECTED = "CALL_SET_CALL_REJECTED";
 
 export const callStates = {
   CALL_UNAVAILABLE: "CALL_UNAVAILABLE",
@@ -36,5 +37,15 @@ export const setCallerUsername = (callerUsername) => {
   return {
     type: CALL_SET_CALLER_USERNAME,
     callerUsername,
+  };
+};
+
+export const setCallRejected = (callRejectedDetails) => {
+  return {
+    type: CALL_SET_CALL_REJECTED,
+    callRejected: {
+      rejected: callRejectedDetails.rejected,
+      reason: callRejectedDetails.reason,
+    },
   };
 };
