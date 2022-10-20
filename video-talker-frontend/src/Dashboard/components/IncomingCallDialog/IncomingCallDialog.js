@@ -25,7 +25,7 @@ const IncomingCallDialog = ({ callerUsername }) => {
           Accept
         </button>
         <button
-          className="direct_call_dialog_accept_button"
+          className="direct_call_dialog_reject_button"
           onClick={handleRejectButtonPressed}
         >
           Reject
