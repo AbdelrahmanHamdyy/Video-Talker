@@ -4,6 +4,7 @@ export const CALL_SET_CALLING_DIALOG_VISIBLE =
   "CALL_SET_CALLING_DIALOG_VISIBLE";
 export const CALL_SET_CALLER_USERNAME = "CALL_SET_CALLER_USERNAME";
 export const CALL_SET_CALL_REJECTED = "CALL_SET_CALL_REJECTED";
+export const CALL_SET_REMOTE_STREAM = "CALL_SET_REMOTE_STREAM";
 
 export const callStates = {
   CALL_UNAVAILABLE: "CALL_UNAVAILABLE",
@@ -47,5 +48,12 @@ export const setCallRejected = (callRejectedDetails) => {
       rejected: callRejectedDetails.rejected,
       reason: callRejectedDetails.reason,
     },
+  };
+};
+
+export const setRemoteStream = (remoteStream) => {
+  return {
+    type: CALL_SET_REMOTE_STREAM,
+    remoteStream,
   };
 };
