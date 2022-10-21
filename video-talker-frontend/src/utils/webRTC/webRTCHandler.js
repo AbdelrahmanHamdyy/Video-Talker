@@ -61,6 +61,12 @@ const createPeerConnection = () => {
 
   peerConnection.onicecandidate = (event) => {
     // Send our ice candidates to the connected user
+    if (event.candidate) {
+      ws.sendwebRTCCandidate({
+        candidate: event.candidate,
+        connectedUserSocketId: connectedUserSocketId,
+      });
+    }
   };
 };
 
@@ -146,6 +152,17 @@ export const handleOffer = async (data) => {
 
 export const handleAnswer = async (data) => {
   await peerConnection.setRemoteDescription(data.answer);
+};
+
+export const handleCandidate = async (data) => {
+  try {
+    await peerConnection.addIceCandidate(data.candidate);
+  } catch (err) {
+    console.log(
+      "Error occured when trying to add ice candidate to the peer connection!",
+      err
+    );
+  }
 };
 
 export const checkIfCallIsPossible = () => {

@@ -38,6 +38,10 @@ export const connectWithWebSocket = () => {
   socket.on("webRTC-answer", (data) => {
     webRTCHandler.handleAnswer(data);
   });
+
+  socket.on("webRTC-candidate", (data) => {
+    webRTCHandler.handleCandidate(data);
+  });
 };
 
 export const registerNewUser = (username) => {
@@ -62,6 +66,10 @@ export const sendWebRTCOffer = (data) => {
 
 export const sendWebRTCAnswer = (data) => {
   socket.emit("webRTC-answer", data);
+};
+
+export const sendwebRTCCandidate = (data) => {
+  socket.emit("webRTC-candidate", data);
 };
 
 const handleBroadcastEvents = (data) => {
