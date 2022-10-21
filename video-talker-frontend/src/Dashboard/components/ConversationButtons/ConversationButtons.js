@@ -9,7 +9,10 @@ import {
   MdVideoCall,
   MdCamera,
 } from "react-icons/md";
-import { switchForScreenSharingStream } from "../../../utils/webRTC/webRTCHandler";
+import {
+  hangUp,
+  switchForScreenSharingStream,
+} from "../../../utils/webRTC/webRTCHandler";
 import ConversationButton from "./ConversationButton";
 
 const styles = {
@@ -52,6 +55,10 @@ const ConversationButtons = (props) => {
     switchForScreenSharingStream();
   };
 
+  const handleHangUpButtonPressed = () => {
+    hangUp();
+  };
+
   return (
     <div style={styles.buttonContainer}>
       <ConversationButton onClickHandler={handleMicButtonPressed}>
@@ -61,7 +68,7 @@ const ConversationButtons = (props) => {
           <MdMicOff style={styles.icon} />
         )}
       </ConversationButton>
-      <ConversationButton>
+      <ConversationButton onClickHandler={handleHangUpButtonPressed}>
         <MdCallEnd style={styles.icon} />
       </ConversationButton>
       <ConversationButton onClickHandler={handleCameraButtonPressed}>
