@@ -5,6 +5,8 @@ export const CALL_SET_CALLING_DIALOG_VISIBLE =
 export const CALL_SET_CALLER_USERNAME = "CALL_SET_CALLER_USERNAME";
 export const CALL_SET_CALL_REJECTED = "CALL_SET_CALL_REJECTED";
 export const CALL_SET_REMOTE_STREAM = "CALL_SET_REMOTE_STREAM";
+export const CALL_SET_LOCAL_MIC_ENABLED = "CALL_SET_LOCAL_MIC_ENABLED";
+export const CALL_SET_LOCAL_CAMERA_ENABLED = "CALL_SET_LOCAL_MIC_ENABLED";
 
 export const callStates = {
   CALL_UNAVAILABLE: "CALL_UNAVAILABLE",
@@ -55,5 +57,19 @@ export const setRemoteStream = (remoteStream) => {
   return {
     type: CALL_SET_REMOTE_STREAM,
     remoteStream,
+  };
+};
+
+export const setLocalMicrophoneEnabled = (enabled) => {
+  return {
+    type: CALL_SET_LOCAL_MIC_ENABLED,
+    enabled,
+  };
+};
+
+export const setLocalCameraEnabled = (enabled) => {
+  return {
+    type: CALL_SET_LOCAL_CAMERA_ENABLED,
+    enabled,
   };
 };

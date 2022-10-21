@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import {
   callStates,
   setCallRejected,
+  setLocalCameraEnabled,
+  setLocalMicrophoneEnabled,
 } from "../../../store/actions/callActions";
 import CallingDialog from "../CallingDialog/CallingDialog";
 import CallRejectedDialog from "../CallRejectedDialog/CallRejectedDialog";
@@ -36,7 +38,7 @@ const DirectCall = (props) => {
         <IncomingCallDialog callerUsername={callerUsername} />
       )}
       {callingDialogVisible && <CallingDialog />}
-      <ConversationButtons />
+      <ConversationButtons {...props} />
     </div>
   );
 };
@@ -51,6 +53,8 @@ function mapDispatchToProps(dispatch) {
   return {
     hideCallRejectedDialog: (callRejectedDetails) =>
       dispatch(setCallRejected(callRejectedDetails)),
+    setCameraEnabled: (enabled) => dispatch(setLocalCameraEnabled(enabled)),
+    setMicEnabled: (enabled) => dispatch(setLocalMicrophoneEnabled(enabled)),
   };
 }
 
