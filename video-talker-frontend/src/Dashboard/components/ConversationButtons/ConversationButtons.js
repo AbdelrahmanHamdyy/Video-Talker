@@ -25,17 +25,45 @@ const styles = {
   },
 };
 
-const ConversationButtons = () => {
+const ConversationButtons = (props) => {
+  const {
+    localStream,
+    localCameraEnabled,
+    localMicEnabled,
+    setCameraEnabled,
+    setMicEnabled,
+  } = props;
+
+  const handleMicButtonPressed = () => {
+    const micEnabled = localMicEnabled;
+    localStream.getAudioTracks()[0].enabled = !micEnabled;
+    setMicEnabled(!micEnabled);
+  };
+
+  const handleCameraButtonPressed = () => {
+    const cameraEnabled = localCameraEnabled;
+    localStream.getVideoTracks()[0].enabled = !cameraEnabled;
+    setCameraEnabled(!cameraEnabled);
+  };
+
   return (
     <div style={styles.buttonContainer}>
-      <ConversationButton>
-        <MdMic style={styles.icon} />
+      <ConversationButton onClickHandler={handleMicButtonPressed}>
+        {localMicEnabled ? (
+          <MdMic style={styles.icon} />
+        ) : (
+          <MdMicOff style={styles.icon} />
+        )}
       </ConversationButton>
       <ConversationButton>
         <MdCallEnd style={styles.icon} />
       </ConversationButton>
-      <ConversationButton>
-        <MdVideocam style={styles.icon} />
+      <ConversationButton onClickHandler={handleCameraButtonPressed}>
+        {localCameraEnabled ? (
+          <MdVideocam style={styles.icon} />
+        ) : (
+          <MdVideocamOff style={styles.icon} />
+        )}
       </ConversationButton>
       <ConversationButton>
         <MdVideoLabel style={styles.icon} />
