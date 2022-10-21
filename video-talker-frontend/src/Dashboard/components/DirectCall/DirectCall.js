@@ -6,6 +6,7 @@ import {
 } from "../../../store/actions/callActions";
 import CallingDialog from "../CallingDialog/CallingDialog";
 import CallRejectedDialog from "../CallRejectedDialog/CallRejectedDialog";
+import ConversationButtons from "../ConversationButtons/ConversationButtons";
 import IncomingCallDialog from "../IncomingCallDialog/IncomingCallDialog";
 import LocalVideoView from "../LocalVideoView/LocalVideoView";
 import RemoteVideoView from "../RemoteVideoView/RemoteVideoView";
@@ -35,6 +36,7 @@ const DirectCall = (props) => {
         <IncomingCallDialog callerUsername={callerUsername} />
       )}
       {callingDialogVisible && <CallingDialog />}
+      <ConversationButtons />
     </div>
   );
 };
