@@ -7,6 +7,7 @@ import {
   setCallRejected,
   setRemoteStream,
   setScreenSharingActive,
+  resetCallDataState,
 } from "../../store/actions/callActions";
 import store from "../../store/store";
 import * as ws from "../wsConnection/wsConnection";
@@ -221,7 +222,6 @@ export const switchForScreenSharingStream = async () => {
 };
 
 const stopScreenSharing = () => {
-  store.dispatch(setScreenSharingActive(false));
   screenSharingStream.getTracks().forEach((track) => track.stop());
 };
 
@@ -242,12 +242,17 @@ export const resetCallData = () => {
 };
 
 const resetCallDataAfterHangUp = () => {
-  store.dispatch(setRemoteStream(null));
+  if (store.getState().call.screenSharingActive) {
+    stopScreenSharing();
+  }
+
+  store.dispatch(resetCallDataState());
   peerConnection.close();
   peerConnection = null;
   createPeerConnection();
   resetCallData();
-  if (store.getState().call.screenSharingActive) {
-    stopScreenSharing();
-  }
+
+  const localStream = store.getState().call.localStream;
+  localStream.getVideoTracks()[0].enabled = true;
+  localStream.getAudioTracks()[0].enabled = true;
 };
