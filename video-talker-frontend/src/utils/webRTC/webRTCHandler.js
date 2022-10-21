@@ -187,11 +187,6 @@ export const checkIfCallIsPossible = () => {
   return true;
 };
 
-export const resetCallData = () => {
-  connectedUserSocketId = null;
-  store.dispatch(setCallState(callStates.CALL_AVAILABLE));
-};
-
 let screenSharingStream;
 
 export const switchForScreenSharingStream = async () => {
@@ -221,7 +216,38 @@ export const switchForScreenSharingStream = async () => {
         sender.track.kind == screenSharingStream.getVideoTracks()[0].kind
     );
     sender.replaceTrack(localStream.getVideoTracks()[0]);
-    store.dispatch(setScreenSharingActive(false));
-    screenSharingStream.getTracks().forEach((track) => track.stop());
+    stopScreenSharing();
+  }
+};
+
+const stopScreenSharing = () => {
+  store.dispatch(setScreenSharingActive(false));
+  screenSharingStream.getTracks().forEach((track) => track.stop());
+};
+
+export const handleUserHangUp = () => {
+  resetCallDataAfterHangUp();
+};
+
+export const hangUp = () => {
+  ws.sendUserHangedUp({
+    connectedUserSocketId: connectedUserSocketId,
+  });
+  resetCallDataAfterHangUp();
+};
+
+export const resetCallData = () => {
+  connectedUserSocketId = null;
+  store.dispatch(setCallState(callStates.CALL_AVAILABLE));
+};
+
+const resetCallDataAfterHangUp = () => {
+  store.dispatch(setRemoteStream(null));
+  peerConnection.close();
+  peerConnection = null;
+  createPeerConnection();
+  resetCallData();
+  if (store.getState().call.screenSharingActive) {
+    stopScreenSharing();
   }
 };

@@ -42,6 +42,10 @@ export const connectWithWebSocket = () => {
   socket.on("webRTC-candidate", (data) => {
     webRTCHandler.handleCandidate(data);
   });
+
+  socket.on("user-hanged-up", () => {
+    webRTCHandler.handleUserHangUp();
+  });
 };
 
 export const registerNewUser = (username) => {
@@ -70,6 +74,10 @@ export const sendWebRTCAnswer = (data) => {
 
 export const sendwebRTCCandidate = (data) => {
   socket.emit("webRTC-candidate", data);
+};
+
+export const sendUserHangedUp = (data) => {
+  socket.emit("user-hanged-up", data);
 };
 
 const handleBroadcastEvents = (data) => {
