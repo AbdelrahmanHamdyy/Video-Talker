@@ -10,6 +10,7 @@ const server = app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`);
 });
 
+// Creates an endpoint for communication and returns a socket descriptor representing the endpoint.
 const io = socket(server, {
   cors: {
     origin: "*",
@@ -86,5 +87,10 @@ io.on("connection", (socket) => {
     io.to(data.connectedUserSocketId).emit("webRTC-candidate", {
       candidate: data.candidate,
     });
+  });
+
+  socket.on("user-hanged-up", (data) => {
+    console.log("Handling User Hanged up");
+    io.to(data.connectedUserSocketId).emit("user-hanged-up");
   });
 });
