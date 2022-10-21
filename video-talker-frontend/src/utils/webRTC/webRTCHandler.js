@@ -200,7 +200,7 @@ export const switchForScreenSharingStream = async () => {
       const senders = peerConnection.getSenders();
       const sender = senders.find(
         (sender) =>
-          sender.track.kind == screenSharingStream.getVideoTracks()[0].kind
+          sender.track.kind === screenSharingStream.getVideoTracks()[0].kind
       );
       sender.replaceTrack(screenSharingStream.getVideoTracks()[0]);
     } catch (err) {
@@ -214,7 +214,7 @@ export const switchForScreenSharingStream = async () => {
     const senders = peerConnection.getSenders();
     const sender = senders.find(
       (sender) =>
-        sender.track.kind == screenSharingStream.getVideoTracks()[0].kind
+        sender.track.kind === screenSharingStream.getVideoTracks()[0].kind
     );
     sender.replaceTrack(localStream.getVideoTracks()[0]);
     stopScreenSharing();
