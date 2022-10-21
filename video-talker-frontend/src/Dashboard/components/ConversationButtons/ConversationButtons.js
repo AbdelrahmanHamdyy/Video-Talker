@@ -9,6 +9,7 @@ import {
   MdVideoCall,
   MdCamera,
 } from "react-icons/md";
+import { switchForScreenSharingStream } from "../../../utils/webRTC/webRTCHandler";
 import ConversationButton from "./ConversationButton";
 
 const styles = {
@@ -32,6 +33,7 @@ const ConversationButtons = (props) => {
     localMicEnabled,
     setCameraEnabled,
     setMicEnabled,
+    screenSharingActive,
   } = props;
 
   const handleMicButtonPressed = () => {
@@ -44,6 +46,10 @@ const ConversationButtons = (props) => {
     const cameraEnabled = localCameraEnabled;
     localStream.getVideoTracks()[0].enabled = !cameraEnabled;
     setCameraEnabled(!cameraEnabled);
+  };
+
+  const handleScreenSharingButtonPressed = () => {
+    switchForScreenSharingStream();
   };
 
   return (
@@ -65,8 +71,12 @@ const ConversationButtons = (props) => {
           <MdVideocamOff style={styles.icon} />
         )}
       </ConversationButton>
-      <ConversationButton>
-        <MdVideoLabel style={styles.icon} />
+      <ConversationButton onClickHandler={handleScreenSharingButtonPressed}>
+        {screenSharingActive ? (
+          <MdCamera style={styles.icon} />
+        ) : (
+          <MdVideoLabel style={styles.icon} />
+        )}
       </ConversationButton>
     </div>
   );

@@ -7,6 +7,7 @@ export const CALL_SET_CALL_REJECTED = "CALL_SET_CALL_REJECTED";
 export const CALL_SET_REMOTE_STREAM = "CALL_SET_REMOTE_STREAM";
 export const CALL_SET_LOCAL_MIC_ENABLED = "CALL_SET_LOCAL_MIC_ENABLED";
 export const CALL_SET_LOCAL_CAMERA_ENABLED = "CALL_SET_LOCAL_CAMERA_ENABLED";
+export const CALL_SET_SCREEN_SHARING_ACTIVE = "CALL_SET_SCREEN_SHARING_ACTIVE";
 
 export const callStates = {
   CALL_UNAVAILABLE: "CALL_UNAVAILABLE",
@@ -71,5 +72,12 @@ export const setLocalCameraEnabled = (enabled) => {
   return {
     type: CALL_SET_LOCAL_CAMERA_ENABLED,
     enabled,
+  };
+};
+
+export const setScreenSharingActive = (active) => {
+  return {
+    type: CALL_SET_SCREEN_SHARING_ACTIVE,
+    active,
   };
 };
