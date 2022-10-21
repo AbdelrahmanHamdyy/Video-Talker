@@ -5,6 +5,7 @@ import {
   setCallingDialogVisible,
   setCallerUsername,
   setCallRejected,
+  setRemoteStream,
 } from "../../store/actions/callActions";
 import store from "../../store/store";
 import * as ws from "../wsConnection/wsConnection";
@@ -51,21 +52,29 @@ const createPeerConnection = () => {
 
   const localStream = store.getState().call.localStream;
 
-  for (const track of localStream.getTrack()) {
+  for (const track of localStream.getTracks()) {
     peerConnection.addTrack(track, localStream);
   }
 
   peerConnection.ontrack = ({ streams: [stream] }) => {
     // Dispatch remote stream in the store
+    store.dispatch(setRemoteStream(stream));
   };
 
   peerConnection.onicecandidate = (event) => {
     // Send our ice candidates to the connected user
+    console.log("Getting candidates from STUN server");
     if (event.candidate) {
       ws.sendwebRTCCandidate({
         candidate: event.candidate,
         connectedUserSocketId: connectedUserSocketId,
       });
+    }
+  };
+
+  peerConnection.onconnectionstatechange = (event) => {
+    if (peerConnection.connectionState === "connected") {
+      console.log("Successfully connected with other peer!");
     }
   };
 };
@@ -100,6 +109,7 @@ export const acceptIncomingCallRequest = () => {
     callerSocketId: connectedUserSocketId,
     answer: preOfferAnswers.CALL_ACCEPTED,
   });
+  store.dispatch(setCallState(callStates.CALL_IN_PROGRESS));
 };
 
 export const rejectIncomingCallRequest = () => {
@@ -155,6 +165,7 @@ export const handleAnswer = async (data) => {
 };
 
 export const handleCandidate = async (data) => {
+  console.log("Adding Ice Candidates");
   try {
     await peerConnection.addIceCandidate(data.candidate);
   } catch (err) {
