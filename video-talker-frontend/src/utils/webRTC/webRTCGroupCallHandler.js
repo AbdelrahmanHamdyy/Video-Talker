@@ -1,4 +1,8 @@
+import store from "../../store/store";
+import * as ws from "../wsConnection/wsConnection";
+
 let myPeer;
+let myPeerId;
 
 export const connectWithMyPeer = () => {
   myPeer = new window.Peer(undefined, {
@@ -9,6 +13,13 @@ export const connectWithMyPeer = () => {
 
   myPeer.on("open", (id) => {
     console.log("Client side: Successfully connected with peerJS server");
-    console.log(id);
+    myPeerId = id;
+  });
+};
+
+export const createNewGroupCall = () => {
+  ws.registerGroupCall({
+    username: store.getState().dashboard.username,
+    peerId: myPeerId,
   });
 };
