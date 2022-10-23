@@ -14,6 +14,7 @@ const initState = {
   localMicEnabled: true,
   screenSharingActive: false,
   groupCallActive: false,
+  groupCallStreams: [],
 };
 
 const reducer = (state = initState, action) => {
@@ -77,6 +78,11 @@ const reducer = (state = initState, action) => {
       return {
         ...state,
         groupCallActive: action.active,
+      };
+    case callActions.CALL_SET_GROUP_CALL_STREAMS:
+      return {
+        ...state,
+        groupCallStreams: action.groupCallStreams,
       };
     default:
       return state;
