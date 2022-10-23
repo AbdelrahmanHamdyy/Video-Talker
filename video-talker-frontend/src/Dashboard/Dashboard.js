@@ -3,15 +3,18 @@ import { connect } from "react-redux";
 import logo from "../resources/logo.png";
 import ActiveUsersList from "./components/ActiveUsersList/ActiveUsersList";
 import * as webRTCHandler from "../utils/webRTC/webRTCHandler";
+import * as webRTCGroupHandler from "../utils/webRTC/webRTCGroupCallHandler";
 import DirectCall from "./components/DirectCall/DirectCall";
-
-import "./Dashboard.css";
 import DashboardInformation from "./components/DashboardInformation/DashboardInformation";
 import { callStates } from "../store/actions/callActions";
+import GroupCallRoomsList from "./components/GroupCallRoomsList/GroupCallRoomsList";
+
+import "./Dashboard.css";
 
 const Dashboard = ({ username, callState }) => {
   useEffect(() => {
     webRTCHandler.getLocalStream();
+    webRTCGroupHandler.connectWithMyPeer();
   }, []);
 
   return (
@@ -24,7 +27,7 @@ const Dashboard = ({ username, callState }) => {
           )}
         </div>
         <div className="dashboard_rooms_container background_secondary_color">
-          rooms
+          <GroupCallRoomsList />
         </div>
       </div>
       <div className="dashboard_right_section background_secondary_color">
