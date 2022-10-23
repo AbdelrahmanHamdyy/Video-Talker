@@ -1,5 +1,7 @@
 const express = require("express");
-const socket = require("socket.io");
+const socket = require("socket.io"); // Direct calls
+const { ExpressPeerServer } = require("peer"); // Group calls
+const groupCallHandler = require("./groupCallHandler");
 
 const PORT = 5000;
 
@@ -9,6 +11,13 @@ const server = app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
   console.log(`http://localhost:${PORT}`);
 });
+
+const peerServer = ExpressPeerServer(server, {
+  debug: true,
+});
+app.use("/peerjs", peerServer);
+
+groupCallHandler.createPeerServerListeners(peerServer);
 
 // Creates an endpoint for communication and returns a socket descriptor representing the endpoint.
 const io = socket(server, {
