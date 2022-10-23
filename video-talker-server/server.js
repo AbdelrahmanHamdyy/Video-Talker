@@ -130,4 +130,13 @@ io.on("connection", (socket) => {
       groupCallRooms,
     });
   });
+
+  socket.on("group-call-join-request", (data) => {
+    io.to(data.roomId).emit("group-call-join-request", {
+      peerId: data.peerId,
+      streamId: data.localStreamId,
+    });
+
+    socket.join(data.roomId);
+  });
 });
