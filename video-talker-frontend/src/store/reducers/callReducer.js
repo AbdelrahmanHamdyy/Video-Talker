@@ -90,6 +90,8 @@ const reducer = (state = initState, action) => {
         groupCallActive: false,
         groupCallStreams: [],
         callState: callActions.callStates.CALL_AVAILABLE,
+        localMicEnabled: true,
+        localCameraEnabled: true,
       };
     default:
       return state;
