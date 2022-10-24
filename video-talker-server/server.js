@@ -67,6 +67,14 @@ io.on("connection", (socket) => {
       event: broadcastEventTypes.ACTIVE_USERS,
       activeUsers: peers,
     });
+
+    groupCallRooms = groupCallRooms.filter(
+      (room) => room.socketId !== socket.id
+    );
+    io.sockets.emit("broadcast", {
+      event: broadcastEventTypes.GROUP_CALL_ROOMS,
+      groupCallRooms,
+    });
   });
 
   // Listeners related with direct call
