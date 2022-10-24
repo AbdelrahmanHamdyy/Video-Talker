@@ -6,7 +6,6 @@ import {
   MdVideocam,
   MdVideocamOff,
   MdVideoLabel,
-  MdVideoCall,
   MdCamera,
 } from "react-icons/md";
 import {
@@ -37,6 +36,7 @@ const ConversationButtons = (props) => {
     setCameraEnabled,
     setMicEnabled,
     screenSharingActive,
+    groupCall,
   } = props;
 
   const handleMicButtonPressed = () => {
@@ -68,9 +68,11 @@ const ConversationButtons = (props) => {
           <MdMicOff style={styles.icon} />
         )}
       </ConversationButton>
-      <ConversationButton onClickHandler={handleHangUpButtonPressed}>
-        <MdCallEnd style={styles.icon} />
-      </ConversationButton>
+      {!groupCall && (
+        <ConversationButton onClickHandler={handleHangUpButtonPressed}>
+          <MdCallEnd style={styles.icon} />
+        </ConversationButton>
+      )}
       <ConversationButton onClickHandler={handleCameraButtonPressed}>
         {localCameraEnabled ? (
           <MdVideocam style={styles.icon} />
@@ -78,13 +80,15 @@ const ConversationButtons = (props) => {
           <MdVideocamOff style={styles.icon} />
         )}
       </ConversationButton>
-      <ConversationButton onClickHandler={handleScreenSharingButtonPressed}>
-        {screenSharingActive ? (
-          <MdCamera style={styles.icon} />
-        ) : (
-          <MdVideoLabel style={styles.icon} />
-        )}
-      </ConversationButton>
+      {!groupCall && (
+        <ConversationButton onClickHandler={handleScreenSharingButtonPressed}>
+          {screenSharingActive ? (
+            <MdCamera style={styles.icon} />
+          ) : (
+            <MdVideoLabel style={styles.icon} />
+          )}
+        </ConversationButton>
+      )}
     </div>
   );
 };
