@@ -3,12 +3,14 @@ import {
   setCallState,
   setGroupCallActive,
   setGroupCallIncomingStreams,
+  clearGroupCallData,
 } from "../../store/actions/callActions";
 import store from "../../store/store";
 import * as ws from "../wsConnection/wsConnection";
 
 let myPeer;
 let myPeerId;
+let groupCallRoomId;
 
 export const connectWithMyPeer = () => {
   myPeer = new window.Peer(undefined, {
@@ -26,6 +28,7 @@ export const connectWithMyPeer = () => {
     call.answer(store.getState().call.localStream);
     call.on("stream", (incomingStream) => {
       const streams = store.getState().call.groupCallStreams;
+      console.log(streams);
       const stream = streams.find((stream) => stream.id === incomingStream.id);
       if (!stream) addVideoStream(incomingStream);
     });
@@ -44,6 +47,7 @@ export const createNewGroupCall = () => {
 
 export const joinGroupCall = (hostSocketId, roomId) => {
   const localStream = store.getState().call.localStream;
+  groupCallRoomId = roomId;
 
   ws.userWantsToJoinGroupCall({
     peerId: myPeerId,
@@ -66,11 +70,27 @@ export const connectToNewUser = (data) => {
   });
 };
 
+export const leaveGroupCall = () => {
+  ws.userLeftGroupCall({
+    streamId: store.getState().call.localStream.id,
+    roomId: groupCallRoomId,
+  });
+
+  groupCallRoomId = null;
+  store.dispatch(clearGroupCallData());
+  myPeer.distroy();
+  connectWithMyPeer();
+};
+
+export const removeInactiveStream = (data) => {
+  const groupCallStreams = store
+    .getState()
+    .call.groupCallStreams.filter((stream) => stream.id !== data.streamId);
+  store.dispatch(setGroupCallIncomingStreams(groupCallStreams));
+};
+
 const addVideoStream = (stream) => {
-  const groupCallStreams = {
-    ...store.getState().call.groupCallStreams,
-    stream,
-  };
+  const groupCallStreams = [...store.getState().call.groupCallStreams, stream];
 
   store.dispatch(setGroupCallIncomingStreams(groupCallStreams));
 };
