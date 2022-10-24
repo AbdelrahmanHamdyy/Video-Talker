@@ -8,6 +8,7 @@ import {
   setRemoteStream,
   setScreenSharingActive,
   resetCallDataState,
+  setMessage,
 } from "../../store/actions/callActions";
 import store from "../../store/store";
 import * as ws from "../wsConnection/wsConnection";
@@ -73,7 +74,9 @@ const createPeerConnection = () => {
       console.log("Peer connection is ready to recieve data channel messages");
     };
 
-    dataChannel.onmessage = (event) => {};
+    dataChannel.onmessage = (event) => {
+      store.dispatch(setMessage(event.data));
+    };
   };
 
   dataChannel = peerConnection.createDataChannel("chat");
@@ -274,4 +277,8 @@ const resetCallDataAfterHangUp = () => {
   const localStream = store.getState().call.localStream;
   localStream.getVideoTracks()[0].enabled = true;
   localStream.getAudioTracks()[0].enabled = true;
+};
+
+export const sendMessagesUsingDataChannel = (message) => {
+  dataChannel.send(message);
 };
