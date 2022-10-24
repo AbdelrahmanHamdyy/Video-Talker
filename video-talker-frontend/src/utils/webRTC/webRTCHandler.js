@@ -19,7 +19,10 @@ const preOfferAnswers = {
 };
 
 const defaultConstraints = {
-  video: true,
+  video: {
+    width: 480,
+    height: 360,
+  },
   audio: true,
 };
 
