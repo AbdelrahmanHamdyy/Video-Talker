@@ -7,6 +7,7 @@ import {
 } from "../../store/actions/callActions";
 import store from "../../store/store";
 import * as ws from "../wsConnection/wsConnection";
+import { getTurnServers } from "./TURN";
 
 let myPeer;
 let myPeerId;
@@ -18,6 +19,9 @@ export const connectWithMyPeer = () => {
     path: "/peerjs",
     host: "/",
     port: "5000",
+    config: {
+      iceServers: [...getTurnServers(), { url: "stun:stun.1und1.de:3478" }],
+    },
   });
 
   myPeer.on("open", (id) => {
