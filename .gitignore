@@ -1,2 +1,4 @@
 video-talker-server/node_modules
 video-talker-frontend/node_modules
+video-talker-frontend/package-lock.json
+video-talker-server/package-lock.json
