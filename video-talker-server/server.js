@@ -33,6 +33,7 @@ const server = app.listen(PORT, () => {
 const peerServer = ExpressPeerServer(server, {
   debug: true,
 });
+
 app.use("/peerjs", peerServer);
 
 groupCallHandler.createPeerServerListeners(peerServer);
