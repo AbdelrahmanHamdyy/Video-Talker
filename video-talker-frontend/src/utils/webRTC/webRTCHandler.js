@@ -244,6 +244,7 @@ export const switchForScreenSharingStream = async () => {
         sender.track.kind === screenSharingStream.getVideoTracks()[0].kind
     );
     sender.replaceTrack(localStream.getVideoTracks()[0]);
+    store.dispatch(setScreenSharingActive(false));
     stopScreenSharing();
   }
 };
