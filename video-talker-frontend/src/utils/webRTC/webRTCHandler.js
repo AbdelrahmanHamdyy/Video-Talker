@@ -75,7 +75,7 @@ const createPeerConnection = () => {
     };
 
     dataChannel.onmessage = (event) => {
-      store.dispatch(setMessage(event.data));
+      store.dispatch(setMessage(true, event.data));
     };
   };
 
